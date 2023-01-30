@@ -45,6 +45,16 @@ var a10 = document.querySelectorAll(".list-items:nth-child(even)");
 for(var i =0; i < a10.length; i++) {
 a10[i].style.backgroundColor = "white";
 }
+var a11 = document.querySelectorAll(".list-items:nth-child(2)");
+for(var i=0;i<a11.length;i++) {
+a11[i].style.color = 'green';
+}
+var a12 = document.querySelectorAll(".list-items:nth-child(odd)");
+for(var i=0;i<a12.length;i++) {
+a12[i].style.backgroundColor = 'green';
+}
+var a13 = document.querySelector(".list-items:nth-child(3)");
+a13.style.visibility = 'hidden';
 
 
 
