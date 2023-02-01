@@ -115,6 +115,76 @@ e1.style.fontSize='30px';
 e1.style.paddingTop = '10px';
 e1.style.paddingLeft='70px';
 e1.style.fontWeight ='bold';
+var e2 = document.querySelector(".btn");
+console.log(e2);
+e2.style.backgroundColor = "black";
+e2.style.fontWeight = "bold";
+e2.style.fontSize ='25px';
+e2.style.position = "sticky";
+// e2.style.width = '90%';
+e2.style.marginLeft = "10px";
+e2.style.marginRight = "10px";
+e2.style.color = "white";
+e2.style.marginBottom = "5px";
+var e3 = document.querySelector(".btn-primary");
+console.log(e3);
+e3.addEventListener('mouseover',buttonClick);
+e3.addEventListener("mouseout",buttonClick1);
+e3.addEventListener("click",buttonClick2);
+//console.log(e4);
+function buttonClick() {
+    e3.style.backgroundColor = "gold";
+}
+function buttonClick1() {
+    e3.style.backgroundColor="black";
+}
+function buttonClick2(e) {
+console.log(e.target);
+console.log(e.target.className);
+console.log(e.target.classList);
+var output1 = document.querySelector(".output");
+output1.innerHTML = "<h2>"+e.target.className+"<h2/>";
+console.log(output1);
+console.log(e.type);
+console.log(e.clientX);
+console.log(e.clientY);
+console.log(e.offsetX);
+console.log(e.offsetY);
+console.log(e.shiftKey);
+console.log(e.ctrlKey);
+}
+e3.addEventListener("mouseenter",runEvent);
+function runEvent(e1) {
+console.log("Event type : "+e1.type);
+}
+var d1 = document.querySelector(".box");
+d1.addEventListener("mousemove",runEvent1);
+function runEvent1(e2) {
+    d1.innerHTML = "<h3>MouseX:"+e2.offsetX+"</h3><br><h3>MouseY:"+e2.offsetY+"</h3>";
+    // d1.style.backgroundColor="rgb("+e2.offsetX+","+e2.offsetY+",40)";
+    document.body.style.backgroundColor="rgb("+e2.offsetX+","+e2.offsetY+",40)";
+}
+var d2 = document.querySelector("input[type='text']");
+d2.addEventListener("copy",runEvent2);
+d2.addEventListener("paste",runEvent2);
+function runEvent2(e4) {
+    document.body.style.display="none";
+    console.log(e4.type);
+}
+var d3 = document.querySelector("select");
+d3.addEventListener("change",runEvent3);
+function runEvent3(e4) {
+    console.log(e4.type);
+    console.log(e4.target.value);
+    document.querySelector(".target").innerHTML="<h1 style='color:black;'>You have selected option : "+e4.target.value+" !<h1>";
+    // document.querySelector(".target").innerHTML.style.color="black";
+}
+var d4 = document.querySelector("form");
+d4.addEventListener("submit",runEvent4);
+function runEvent4(e5) {
+    e5.preventDefault();
+    console.log(e5.type);
+}
 
 
 
