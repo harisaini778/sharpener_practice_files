@@ -1,0 +1,26 @@
+#div1{
+    padding-top:30px;
+    padding-bottom:30px;
+    font-size:40px;
+    font-weight: solid;
+    background-color: green;
+    padding-left: 150px;
+    /* padding-right: 50px; */
+    color:white;
+    /* align-self: center; */
+}
+#div2{
+    padding-top:36px;
+    padding-bottom:30px;
+    font-size:40px;
+    font-weight: solid;
+    background-color:green;
+    /* padding-left: 20px; */
+    padding-right: 80px; 
+    /* align-self: center; */
+     
+}
+/* .form-control{
+align-self:center;
+align-content: center;
+} */
