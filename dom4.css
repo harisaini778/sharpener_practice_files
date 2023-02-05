@@ -1,0 +1,26 @@
+/* .card{
+    background-color: grey;
+}
+ .main-header{
+    background-color: grey;
+}  
+.div1{
+    background-color: grey;
+    border-style: solid;
+    border-color: black;
+} */
+.card-body{
+    width: 50%;
+    height:40%;
+    position: absolute;
+    top: 20px;;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
+h1{
+padding-top: 50px;
+padding-bottom: 50px;
+text-align: center;
+}
