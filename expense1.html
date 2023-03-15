@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <title>Expense Sheet</title>
+</head>
+<body>
+    <form>
+    <label for="x1" class ="form-label">Choose expenseamount</label>
+    <input type="number" class="form-control" id="x1">
+    <label for="x2" class="form-label">Choose description</label>
+    <input type="text" class="form-control" id="x2">
+    <label for="x3" class="form-label">Choose a category</label>
+    <select id="x3">
+    <option>Food</option>
+    <option>Fuel</option>
+    <option>Movie</option>
+    </select>
+    <button class="btn btn-success" type="button" onclick="addExpense()"> + Add Expense</button>
+        </div>
+    </div>
+</form>
+</body>
+<script>
+    function addExpense(){
+        var expenseAmount = document.getElementById("x1").value;
+        var description = document.getElementById("x2").value;
+        var category = document.getElementById("x3").value;
+        console.log(expenseAmount,description,category);
+        // saving to the local storage
+        let expense = {
+            amount : expenseAmount,
+            descriptionItem : description,
+            categoryItem : category
+        };
+        localStorage.setItem(expense.amount,JSON.stringify(expense));
+        // displaying on the screen 
+        let ulParent = document.createElement("ul");
+        let liChild = document.createElement("li");
+        let body = document.getElementsByTagName("body")[0];
+        let editExpense = document.createElement("button");
+        let deleteExpense = document.createElement("button");
+        editExpense.className = "btn btn-dark";
+        editExpense.textContent = "Edit expense";
+        deleteExpense.className = "btn btn-danger";
+        deleteExpense.textContent = "Delete expense";
+        liChild.id = "listItems";
+        ulParent.id ="parentListItems";
+        liChild.innerHTML = "<p>"+ expenseAmount + ", " + description + ", " + category + " </p>";
+        liChild.appendChild(editExpense);
+        liChild.appendChild(deleteExpense);
+        ulParent.appendChild(liChild);
+        body.appendChild(ulParent);
+        editExpense.addEventListener("click",editExpenseFun);
+        function editExpenseFun(){
+            liChild.style.display = "none";
+            document.getElementById("x1").value= expenseAmount;
+            document.getElementById("x2").value= description;
+            document.getElementById("x3").value= category;
+            liChild.style.display = "none";
+           localStorage.removeItem(expense.amount);      
+    }
+    deleteExpense.addEventListener("click",deleteExpenseFun);  
+    function deleteExpenseFun(){
+        liChild.style.display = "none";
+        localStorage.removeItem(expense.amount);
+    }
+            document.getElementById("x1").value= "";
+            document.getElementById("x2").value= "";
+            document.getElementById("x3").value= "";
+}
+</script>
+</html>
