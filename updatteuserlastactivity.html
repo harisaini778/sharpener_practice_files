@@ -31,8 +31,6 @@
 //    console.log(posts[0].title);
 //    console.log(posts[0].createdAt);
 //    })
-let posts = [];
-
 function updateLastUserActivityTime() {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
@@ -70,20 +68,21 @@ function displayPostsAndLastActivityTime() {
 
 let lastActivityTime;
 
-createPost({ title: "Post 1", createdAt: new Date().getTime() })
-  .then(() => {
-    return updateLastUserActivityTime();
-  })
-  .then((lat) => {
-    lastActivityTime = lat;
-    displayPostsAndLastActivityTime();
-    return deleteLastPost();
-  })
-  .then(() => {
-    displayPostsAndLastActivityTime();
-  })
-  .catch((error) => {
-    console.error(error);
-  });
+Promise.all([
+  createPost({ title: "Post 1", createdAt: new Date().getTime() }),
+  updateLastUserActivityTime()
+])
+.then((values) => {
+  lastActivityTime = values[1];
+  displayPostsAndLastActivityTime();
+  return deleteLastPost();
+})
+.then(() => {
+  displayPostsAndLastActivityTime();
+})
+.catch((error) => {
+  console.error(error);
+});
+
 </script>
 </html>
