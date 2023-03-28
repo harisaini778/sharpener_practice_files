@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Commerce Seller Dashboard</title>
+</head>
+<body>
+    <label for="x1">Selling Price : </label>
+    <input type="number" id ="x1" name="SellingPrice">
+    <label for="x2">Product Name : </label>
+    <input type="text" id="x2" name="ProductName">
+    <button type="button">Add Product</button><br>
+    <h1>Products</h1>
+    <ul id="productList"></ul>
+    <h2 id="sum"></h2>
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.4/axios.min.js"></script>  
+<script>
+function showDetailsOnScreen(obj,id){
+    console.log(id);
+    let liItems = document.createElement("li");
+    liItems.id ="id";
+    let ulItems = document.getElementById("productList");
+    let deleteBtn = document.createElement("button");
+    let deleteBtnTxt = document.createTextNode("Delete Product");
+    deleteBtn.appendChild(deleteBtnTxt);
+    let liText = document.createTextNode(`${obj.SellingPrice} - ${obj.ProductName} `);
+    liItems.appendChild(liText);
+    liItems.appendChild(deleteBtn);  
+    ulItems.appendChild(liItems);
+    let body = document.getElementsByTagName("body")[0];
+    body.appendChild(ulItems);
+    addPrice+=obj.SellingPrice;
+    let sum = document.getElementById("sum");
+    sum.textContent = "Total value of products is : "+`${addPrice}`; 
+    deleteBtn.addEventListener("click", ()=>{deleteProductFun(obj,id)});
+    function deleteProductFun(obj,id){
+        console.log("id inside delete fun : "+id);
+        console.log("obj inside delete fun :" +obj);
+        let subtractPrice =addPrice;
+        subtractPrice-=obj.SellingPrice;
+        sum.textContent = "Total value of the products is : "+Math.abs(subtractPrice);
+        //console.log("updated val inside fun :"+subtractPrice);
+        liItems.style.display="none";
+        addPrice = subtractPrice;
+       // console.log("updated addPrice val inside fun is :"+addPrice);
+       axios.delete(`https://crudcrud.com/api/379f1020b7614377af4f7383c7d80255/productData/${id}`)
+       .then((res)=>{
+        console.log(res)
+       })
+       .catch((err)=>{console.log(err)})
+    }
+} 
+let addPrice = 0;
+var details = document.getElementsByTagName("button")[0];
+details.addEventListener("click", runEvent);   
+function runEvent(e){
+e.preventDefault();
+let Sp = parseFloat(document.getElementById("x1").value);
+let Pn = document.getElementById("x2").value;
+let myObj = {
+    SellingPrice : Sp,
+    ProductName : Pn,
+    ProductId : ""
+}
+axios.post("https://crudcrud.com/api/379f1020b7614377af4f7383c7d80255/productData",myObj)
+.then((res)=>{
+    ProductId = res.data._id;
+})
+.catch((err)=>{console.log(err)})
+showDetailsOnScreen(myObj,myObj.ProductId);
+}
+window.addEventListener("DOMContentLoaded",(e)=>{
+axios.get("https://crudcrud.com/api/379f1020b7614377af4f7383c7d80255/productData")
+.then((res)=>{
+    console.log(res)
+    for(let i=0;i<res.data.length;i++){
+        showDetailsOnScreen(res.data[i],res.data[i]._id);
+    }
+})
+.catch((err)=>{
+    console.log(err)
+})
+})
+</script> 
+</html>
