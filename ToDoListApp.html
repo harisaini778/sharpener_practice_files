@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ToDo List App</title>
+</head>
+<body>
+    <label for="x1">ToDo Name : </label>
+    <input type="text" id ="x1">
+    <label for="x2">ToDo Description : </label>
+    <input type="text" id="x2">
+    <button type="button">Add Item</button><br>
+    <h1>ToDo Tasks</h1>
+    <ul id="todoList"></ul>
+    <ul id="taskDone"><h1>ToDo Done</h1></ul>
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+<script>
+function showUserDataOnScreen(val, id) {
+  var ulItems = document.getElementById("todoList");
+  var liItems = document.createElement("li");
+  liItems.setAttribute("id", id);
+  var liText = document.createTextNode(JSON.stringify(val));
+  liItems.appendChild(liText);
+  var liBtn = document.createElement("button");
+  var liBtnText = document.createTextNode("X");
+  liBtn.appendChild(liBtnText);
+  liItems.appendChild(liBtn);
+  var editBtn = document.createElement("button");
+  var editBtnText = document.createTextNode("Mark as done");
+  editBtn.appendChild(editBtnText);
+  liItems.appendChild(editBtn);
+  ulItems.appendChild(liItems);
+  liBtn.addEventListener("click", ()=>{
+    deleteDetails(val,id);
+  });
+
+  function deleteDetails(val,id) {
+    ulItems.removeChild(liItems);
+    axios.delete(`https://crudcrud.com/api/69edc5533ad946008c85825ce42131fb/todoData/${id}`)
+    .then((res)=>{
+     console.log(res)})
+    .catch((err)=>{console.log(err)});
+  }
+
+  editBtn.addEventListener("click", ()=>{
+    editDetails(val,id)
+  });
+
+  function editDetails(val,id) {
+    document.getElementById("x1").value = val.todoName;
+    document.getElementById("x2").value = val.todoDes;
+    ulItems.removeChild(liItems);
+    let ulTaskDoneList = document.getElementById("taskDone");
+    let liTaskDoneList = document.createElement("li");
+    liTaskDoneList.textContent = `This ${val.todoName} has been done with ${val.todoDes}`;
+    ulTaskDoneList.appendChild(liTaskDoneList);
+    axios.delete(`https://crudcrud.com/api/69edc5533ad946008c85825ce42131fb/todoData/${id}`)
+    .then((res)=>{
+     console.log(res)})
+    .catch((err)=>{console.log(err)});
+  }
+}
+
+var todoDetails = document.getElementsByTagName("button")[0];
+todoDetails.addEventListener("click", runEvent);
+
+function runEvent(event) {
+  event.preventDefault();
+  const todoName = document.getElementById("x1").value;
+  const todoDes =  document.getElementById("x2").value;
+  const myObj = {
+    todoName: todoName,
+    todoDes:todoDes,
+    todoId : ""
+  };
+  // Saving the user details to the server
+  axios
+    .post(
+      "https://crudcrud.com/api/69edc5533ad946008c85825ce42131fb/todoData",
+      myObj
+    )
+    .then((res) => {
+      console.log(res);
+      let todoId = res.data._id;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+    showUserDataOnScreen(myObj,myObj.todoId);
+}
+window.addEventListener("DOMContentLoaded", (event) => {
+  axios
+    .get("https://crudcrud.com/api/69edc5533ad946008c85825ce42131fb/todoData")
+    .then((res) => {
+      console.log(res);
+      for (let i = 0; i < res.data.length; i++) {
+        showUserDataOnScreen(res.data[i], res.data[i]._id);
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
+</script>
+</html>
